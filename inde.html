@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Webspace wird eingerichtet – TG-Systems</title>
+<style>
+  :root {
+    --bg: #04070b;
+    --bg-2: #0a131c;
+    --line: #17252f;
+    --ink: #e8f1f5;
+    --muted: #7d93a3;
+    --accent: #62e6f4;
+    --accent-dim: rgba(98, 230, 244, .35);
+    --font: "Segoe UI Variable Display", "Avenir Next", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: radial-gradient(ellipse at 75% 45%, var(--bg-2) 0%, var(--bg) 62%);
+    color: var(--ink);
+    font-family: var(--font);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Driftendes Raster */
+  .grid {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: .45;
+    mask-image: radial-gradient(ellipse at 70% 50%, #000 0%, transparent 72%);
+    -webkit-mask-image: radial-gradient(ellipse at 70% 50%, #000 0%, transparent 72%);
+    animation: drift 40s linear infinite;
+  }
+  @keyframes drift { to { background-position: 64px 64px; } }
+
+  /* Langsamer Scan-Strahl */
+  .scan {
+    position: fixed; left: 0; right: 0; top: 0; height: 160px; z-index: 0; pointer-events: none;
+    background: linear-gradient(to bottom, transparent, rgba(98, 230, 244, .05), transparent);
+    animation: scan 14s linear infinite;
+  }
+  @keyframes scan { from { transform: translateY(-160px); } to { transform: translateY(100vh); } }
+
+  .page {
+    position: relative; z-index: 1;
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: clamp(20px, 4vw, 48px);
+    gap: 24px;
+  }
+
+  header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .brand { font-size: 1.05rem; font-weight: 600; letter-spacing: .14em; }
+  .brand span { color: var(--accent); }
+  .status {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: .85rem; color: var(--muted);
+    border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 0 0 var(--accent-dim);
+    animation: pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 var(--accent-dim); }
+    80%, 100% { box-shadow: 0 0 0 12px rgba(98, 230, 244, 0); }
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: clamp(16px, 4vw, 64px);
+  }
+
+  .copy { max-width: 34rem; }
+  h1 {
+    font-size: clamp(2rem, 4.6vw, 3.6rem);
+    font-weight: 300;
+    line-height: 1.12;
+    letter-spacing: -.01em;
+  }
+  .lead {
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.65;
+    max-width: 32rem;
+  }
+
+  .bar {
+    position: relative; margin-top: 36px; height: 2px; width: min(100%, 22rem);
+    background: var(--line); overflow: hidden;
+  }
+  .bar::after {
+    content: ""; position: absolute; top: 0; bottom: 0; width: 38%;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: slide 2.6s ease-in-out infinite;
+  }
+  @keyframes slide { from { left: -40%; } to { left: 102%; } }
+
+  .clock { margin-top: 40px; }
+  .time {
+    font-size: clamp(2.6rem, 6vw, 4.4rem);
+    font-weight: 200;
+    letter-spacing: .02em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .time .sec { color: var(--accent); font-size: .5em; margin-left: .15em; }
+  .date { margin-top: 10px; color: var(--muted); font-size: .95rem; }
+
+  /* Zahnräder */
+  .gears { width: 100%; display: flex; justify-content: center; }
+  .gears svg { width: 100%; max-width: 720px; height: auto; overflow: visible; }
+  .gear { fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linejoin: round; }
+  .gear-fill { fill: rgba(98, 230, 244, .035); }
+  .gear-thin { fill: none; stroke: var(--accent); stroke-opacity: .35; stroke-width: 1; }
+  .spin { transform-origin: 0 0; animation: spin linear infinite; }
+  .spin.rev { animation-direction: reverse; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ring { fill: none; stroke: var(--accent); stroke-opacity: .25; stroke-width: 1; stroke-dasharray: 2 10; }
+
+  footer {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 24px;
+    color: var(--muted); font-size: .82rem;
+    border-top: 1px solid var(--line); padding-top: 16px;
+  }
+
+  @media (max-width: 860px) {
+    main { grid-template-columns: 1fr; }
+    .gears { order: -1; max-width: 460px; margin: 0 auto; }
+    .copy { max-width: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .grid, .scan, .spin, .bar::after, .dot { animation: none; }
+    .bar::after { left: 0; width: 100%; opacity: .5; }
+  }
+</style>
+</head>
+<body>
+  <div class="grid" aria-hidden="true"></div>
+  <div class="scan" aria-hidden="true"></div>
+
+  <div class="page">
+    <header>
+      <div class="brand">TG<span>-</span>SYSTEMS</div>
+      <div class="status" role="status"><span class="dot"></span>Einrichtung läuft</div>
+    </header>
+
+    <main>
+      <section class="copy">
+        <h1>Ihr Webspace wird gerade eingerichtet.</h1>
+        <p class="lead">
+          Wir stellen Ihre Server-Umgebung bereit und richten alles für Sie ein.
+          Sobald Ihr Webspace verfügbar ist, erhalten Sie Ihre Zugangsdaten per E-Mail
+          und diese Seite wird durch Ihre Website ersetzt.
+        </p>
+        <div class="bar" aria-hidden="true"></div>
+
+        <div class="clock" aria-label="Aktuelle Uhrzeit">
+          <div class="time" id="time">--:--<span class="sec">--</span></div>
+          <div class="date" id="date"></div>
+        </div>
+      </section>
+
+      <div class="gears" aria-hidden="true">
+        <svg id="gears" viewBox="-210 -290 680 580" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </main>
+
+    <footer>
+      <span>© TG-Systems UG (haftungsbeschränkt)</span>
+      <span>Bei Fragen wenden Sie sich bitte an Ihren Ansprechpartner bei TG-Systems.</span>
+    </footer>
+  </div>
+
+<script>
+  /* ---------- Uhr ---------- */
+  (function () {
+    var timeEl = document.getElementById('time');
+    var dateEl = document.getElementById('date');
+    var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+    function tick() {
+      var d = new Date();
+      timeEl.innerHTML = pad(d.getHours()) + ':' + pad(d.getMinutes()) +
+        '<span class="sec">' + pad(d.getSeconds()) + '</span>';
+      dateEl.textContent = d.toLocaleDateString('de-DE', {
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+      });
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  /* ---------- Ineinandergreifende Zahnräder ---------- */
+  (function () {
+    var svg = document.getElementById('gears');
+    var NS = 'http://www.w3.org/2000/svg';
+    var rad = function (d) { return d * Math.PI / 180; };
+    var mod = function (a, n) { return ((a % n) + n) % n; };
+
+    function gearPath(N, r) {
+      var p = 360 / N, ro = r + 9, rr = r - 10, pts = [];
+      for (var k = 0; k < N; k++) {
+        var c = k * p;
+        [[rr, c - .5 * p], [rr, c - .30 * p], [ro, c - .17 * p],
+         [ro, c + .17 * p], [rr, c + .30 * p]].forEach(function (q) {
+          pts.push((q[0] * Math.cos(rad(q[1]))).toFixed(2) + ' ' + (q[0] * Math.sin(rad(q[1]))).toFixed(2));
+        });
+      }
+      return 'M' + pts.join(' L') + ' Z';
+    }
+
+    function el(name, attrs, parent) {
+      var e = document.createElementNS(NS, name);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      (parent || svg).appendChild(e);
+      return e;
+    }
+
+    function addGear(x, y, N, r, rot, seconds, reverse) {
+      var outer = el('g', { transform: 'translate(' + x.toFixed(2) + ' ' + y.toFixed(2) + ')' });
+      var spin = el('g', { 'class': 'spin' + (reverse ? ' rev' : '') }, outer);
+      spin.style.animationDuration = seconds + 's';
+      var g = el('g', { transform: 'rotate(' + rot.toFixed(2) + ')' }, spin);
+      var d = gearPath(N, r);
+      el('path', { d: d, 'class': 'gear-fill' }, g);
+      el('path', { d: d, 'class': 'gear' }, g);
+      el('circle', { r: r * .78, 'class': 'gear-thin' }, g);
+      el('circle', { r: r * .22, 'class': 'gear' }, g);
+      el('circle', { r: r * .08, 'class': 'gear-thin' }, g);
+      var spokes = N >= 24 ? 6 : 5;
+      for (var i = 0; i < spokes; i++) {
+        var a = rad(i * 360 / spokes);
+        el('line', {
+          x1: (r * .22 * Math.cos(a)).toFixed(2), y1: (r * .22 * Math.sin(a)).toFixed(2),
+          x2: (r * .78 * Math.cos(a)).toFixed(2), y2: (r * .78 * Math.sin(a)).toFixed(2),
+          'class': 'gear-thin'
+        }, g);
+      }
+    }
+
+    var A = { N: 30, r: 170 }, B = { N: 18, r: 102 }, C = { N: 12, r: 68 };
+    var base = 90; // Sekunden pro Umdrehung des größten Rades
+    var pA = 360 / A.N, pB = 360 / B.N, pC = 360 / C.N;
+
+    // Gear A im Ursprung, B und C greifen sauber ineinander
+    var rotA = 0;
+    var phi = -3 * pA;                              // Richtung A -> B (Zahn von A zeigt dorthin)
+    var bx = (A.r + B.r) * Math.cos(rad(phi)), by = (A.r + B.r) * Math.sin(rad(phi));
+    var rotB = mod(phi + 180 - pB / 2, pB);         // Lücke von B gegenüber dem Zahn von A
+    var psi = rotB + 2 * pB;                        // Richtung B -> C (Zahn von B zeigt dorthin)
+    var cx = bx + (B.r + C.r) * Math.cos(rad(psi)), cy = by + (B.r + C.r) * Math.sin(rad(psi));
+    var rotC = mod(psi + 180 - pC / 2, pC);
+
+    // Dekorative Umlaufbahn um das große Rad
+    var ring = el('g', { transform: 'translate(0 0)' });
+    var ringSpin = el('g', { 'class': 'spin rev' }, ring);
+    ringSpin.style.animationDuration = '240s';
+    el('circle', { r: A.r + 34, 'class': 'ring' }, ringSpin);
+    el('circle', { r: A.r + 52, 'class': 'ring' }, ringSpin);
+
+    addGear(0, 0, A.N, A.r, rotA, base, false);
+    addGear(bx, by, B.N, B.r, rotB, base * B.N / A.N, true);
+    addGear(cx, cy, C.N, C.r, rotC, base * C.N / A.N, false);
+  })();
+</script>
+</body>
+</html>
